@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <script !src="IT/1/index.js"></script>
+  <title>Document</title>
+</head>
+<body>
+<div id="background"></div>
+<div class="converter">
+  <h1>Конвертер валют</h1>
+  <div class="input-group">
+    <label for="amount">Сума:</label>
+    <input type="number" id="amount" value="1">
+  </div>
+  <div class="input-group">
+    <label for="fromCurrency">З валюти:</label>
+    <select id="fromCurrency">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="UAH">UAH</option>
+    </select>
+  </div>
+  <div class="input-group">
+    <label for="toCurrency">У валюту:</label>
+    <select id="toCurrency">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="UAH" selected>UAH</option>
+    </select>
+  </div>
+  <button id="convertBtn">Конвертувати</button>
+  <div id="result"></div>
+</div>
+</body>
+<script>
+    // Визначаємо курси валют
+    const exchangeRates = {
+        "USD": 39.20, // 1 USD = 39.20 UAH
+        "EUR": 42.18, // 1 EUR = 42.18 UAH
+        "UAH": 1
+    };
+
+    // Функція для конвертації валют
+    function convertCurrency()  {
+        const amount = document.getElementById("amount").value;
+        const fromCurrency = document.getElementById("fromCurrency").value;
+        const toCurrency = document.getElementById("toCurrency").value;
+
+        // Перевіряємо, чи конвертація не відбувається між тією самою валютою
+        if (fromCurrency === toCurrency) {
+            document.getElementById("result").innerHTML = `${amount} ${fromCurrency}`;
+            return;
+        }
+
+        // Конвертуємо суму з однієї валюти в гривні
+        const amountInUAH = amount * exchangeRates[fromCurrency];
+
+        // Конвертуємо гривні в бажану валюту
+        const convertedAmount = amountInUAH / exchangeRates[toCurrency];
+
+        // Виводимо результат
+        document.getElementById("result").innerHTML = `${convertedAmount.toFixed(2)} ${toCurrency}`;
+    }
+
+    // Додаємо обробник події для кнопки "Конвертувати"
+    document.getElementById("convertBtn").addEventListener("click", convertCurrency);
+</script>
+</html>
